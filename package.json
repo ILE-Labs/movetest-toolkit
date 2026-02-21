@@ -4,7 +4,8 @@
   "description": "TypeScript-Based Testing for Aptos Move",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:move": "aptos move compile --package-dir move",
+    "test": "npm run build:move && jest"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,9 @@
   },
   "homepage": "https://github.com/ILE-Labs/movetest-toolkit#readme",
   "dependencies": {
-    "aptos": "^1.22.1"
+    "@aptos-labs/ts-sdk": "^6.0.0",
+    "aptos": "^1.22.1",
+    "dotenv": "^17.3.1"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
