@@ -1,9 +1,10 @@
 [package]
-name = "MyCounter"
+name = "Counter"
 version = "1.0.0"
 authors = []
 
 [addresses]
+Counter = "0x0"
 
 [dev-addresses]
 
