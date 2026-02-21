@@ -11,14 +11,12 @@ export const movetest = {
     await aptos.fundAccount({
       accountAddress: account.accountAddress,
       amount: 100_000_000,
-      options: { waitForIndexer: false },
     });
 
     return { account };
   },
 
-  
- async publishModule({
+  async publishModule({
     aptos,
     account,
     metadataPath,
@@ -35,7 +33,7 @@ export const movetest = {
     const transaction = await aptos.publishPackageTransaction({
       account: account.accountAddress,
       metadataBytes,
-      moduleBytecode: [moduleBytes], 
+      moduleBytecode: [moduleBytes],
     });
 
     const pendingTxn = await aptos.signAndSubmitTransaction({
@@ -72,12 +70,11 @@ export const movetest = {
   },
 
   async readCounterValue(aptos: Aptos, address: string) {
-
     type CounterResource = { value: string };
     
     const resource = await aptos.getAccountResource<CounterResource>({
       accountAddress: address,
-      resourceType: `${address}::my_counter::Counter`,
+      resourceType: `${address}::counter::Counter`, 
     });
 
     return parseInt(resource.value, 10);

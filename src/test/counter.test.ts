@@ -2,14 +2,16 @@ import "dotenv/config";
 import { Aptos, AptosConfig, Network } from "@aptos-labs/ts-sdk";
 import { movetest } from "../movetest";
 import { execSync } from "child_process";
+import fs from "fs";
 
 describe("MyCounter", () => {
+  afterAll(() => {
+    fs.rmSync("./move/build", { recursive: true, force: true });
+  });
+
   it("increments value on-chain", async () => {
-  
     const config = new AptosConfig({
-        network: Network.CUSTOM,
-        fullnode: "http://127.0.0.1:8080/v1",
-        faucet: "http://127.0.0.1:8081",
+      network: Network.DEVNET, 
     });
     const aptos = new Aptos(config);
 
@@ -18,31 +20,33 @@ describe("MyCounter", () => {
 
 
     execSync(
-      `aptos move compile --package-dir ./move --named-addresses my_counter=${addr} --save-metadata`,
+      `aptos move compile --package-dir ./move --named-addresses Counter=${addr} --save-metadata`,
       { stdio: "inherit" }
     );
 
+    
     await movetest.publishModule({
       aptos,
       account,
-      metadataPath: "./move/build/MyCounter/package-metadata.bcs",
-      modulePath: "./move/build/MyCounter/bytecode_modules/my_counter.mv",
+      
+      metadataPath: "./move/build/Counter/package-metadata.bcs",
+      modulePath: "./move/build/Counter/bytecode_modules/counter.mv", 
     });
 
     await movetest.callEntryFunction({
       aptos,
       account,
-      func: `${addr}::my_counter::init_counter`,
+      func: `${addr}::counter::init_counter`, 
     });
 
     await movetest.callEntryFunction({
       aptos,
       account,
-      func: `${addr}::my_counter::increment`,
+      func: `${addr}::counter::increment`,
     });
 
     const value = await movetest.readCounterValue(aptos, addr);
 
     expect(value).toBe(1);
-  });
+  }, 60000); 
 });
