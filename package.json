@@ -17,5 +17,14 @@
   "bugs": {
     "url": "https://github.com/ILE-Labs/movetest-toolkit/issues"
   },
-  "homepage": "https://github.com/ILE-Labs/movetest-toolkit#readme"
+  "homepage": "https://github.com/ILE-Labs/movetest-toolkit#readme",
+  "dependencies": {
+    "aptos": "^1.22.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.6",
+    "typescript": "^5.9.3"
+  }
 }
